@@ -1,10 +1,11 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(2560, 1440), "Penguin Paradise");
+    sf::RenderWindow window(sf::VideoMode(500, 500), "Penguin Paradise");
     // run the program as long as the window is open
     sf::Texture penguintexture;
     penguintexture.loadFromFile("images/penguin.png");
@@ -12,7 +13,7 @@ int main()
     sf::Sprite penguin;
     penguin.setTexture(penguintexture);
 
-    penguin.scale(sf::Vector2f(1.0f, 0.5f));
+    penguin.scale(sf::Vector2f(0.5f, 0.5f));
 
     while (window.isOpen())
     {
@@ -23,15 +24,16 @@ int main()
         {
           switch (event.type)
           {
-            case sf::Event::MouseButtonPressed:
-              std::cout << "" << std::endl;
-              if (event.mouseButton.button == sf::Mouse::Right)
-              {
-                std::cout << "Mouse is at " << event.mouseButton.x << "," << event.mouseButton.y << std::endl;
-              }
-
             case sf::Event::Closed:
               window.close();
+              break;
+            case sf::Event::MouseButtonPressed:
+              if (event.mouseButton.button == sf::Mouse::Right || event.mouseButton.button == sf::Mouse::Left)
+              {
+                std::cout << "Mouse is at " << event.mouseButton.x << "," << event.mouseButton.y << std::endl;
+                penguin.setPosition(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
+              }
+            default:
               break;
           }
 
