@@ -5,15 +5,19 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(500, 500), "Penguin Paradise");
+    sf::RenderWindow window(sf::VideoMode(870, 630), "Penguin Paradise");
     // run the program as long as the window is open
     sf::Texture penguintexture;
     penguintexture.loadFromFile("images/penguin.png");
 
+    float playscale = 0.2f;
+
     sf::Sprite penguin;
     penguin.setTexture(penguintexture);
     penguin.setOrigin(sf::Vector2f(658*0.5f, 651*0.5f));
-    penguin.setScale(sf::Vector2f(0.5f, 0.5f));
+
+    penguin.setScale(sf::Vector2f(playscale, playscale));
+
 
     while (window.isOpen())
     {
