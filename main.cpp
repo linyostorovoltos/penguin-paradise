@@ -7,17 +7,21 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(870, 630), "Penguin Paradise");
     // run the program as long as the window is open
-    sf::Texture penguintexture;
-    penguintexture.loadFromFile("images/penguin.png");
+    sf::Texture penguinTexture;
+    sf::Texture backTexture;
 
-    float playscale = 0.2f;
+    penguinTexture.loadFromFile("images/penguin.png");
+    backTexture.loadFromFile("images/background.png");
 
+    float playScale = 0.2f;
     sf::Sprite penguin;
-    penguin.setTexture(penguintexture);
+    sf::Sprite background;
+
+    penguin.setTexture(penguinTexture);
     penguin.setOrigin(sf::Vector2f(658*0.5f, 651*0.5f));
+    penguin.setScale(sf::Vector2f(playScale, playScale));
 
-    penguin.setScale(sf::Vector2f(playscale, playscale));
-
+    background.setTexture(backTexture);
 
     while (window.isOpen())
     {
@@ -42,6 +46,7 @@ int main()
           }
 
           window.clear();
+          window.draw(background);
           window.draw(penguin);
           window.display();
         }
