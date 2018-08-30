@@ -4,12 +4,11 @@
 
 int main()
 {
-
 	sf::RenderWindow window(sf::VideoMode(870, 630), "Experimental Penguins Rewritten", sf::Style::Titlebar | sf::Style::Close);
-
-  sf::Image icon;
-  icon.loadFromFile("images/icon.png");
-  window.setIcon(32,32, icon.getPixelsPtr());
+	
+	sf::Image icon;
+	icon.loadFromFile("images/icon.png");
+	window.setIcon(32, 32, icon.getPixelsPtr());
 	
 	// run the program as long as the window is open 
 	sf::Texture penguinTexture;
