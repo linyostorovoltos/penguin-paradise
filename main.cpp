@@ -11,6 +11,7 @@ int main()
     sf::Texture backTexture;
 
     penguinTexture.loadFromFile("images/penguin.png");
+    penguinTexture.setSmooth(true);
     backTexture.loadFromFile("images/background.png");
 
     float playScale = 0.2f;
@@ -18,7 +19,7 @@ int main()
     sf::Sprite background;
 
     penguin.setTexture(penguinTexture);
-    penguin.setOrigin(sf::Vector2f(658*0.5f, 651*0.5f));
+    penguin.setOrigin(sf::Vector2f(329*0.5f, 341*0.5f));
     penguin.setScale(sf::Vector2f(playScale, playScale));
 
     background.setTexture(backTexture);
