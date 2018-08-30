@@ -44,6 +44,7 @@ int main() {
 	penguin.setTexture(penguinTexture);
 	penguin.setOrigin(sf::Vector2f(329 * 0.5f, 341 * 0.5f));
 	penguin.setScale(sf::Vector2f(playScale, playScale));
+	penguin.setPosition(sf::Vector2f(870/2, 630/2));
 
 	background.setTexture(backTexture);
 	volume.setTexture(volumeTexture);
@@ -70,7 +71,7 @@ int main() {
 					{
 						if (isSongPlaying == true)
 						{
-							song.stop();
+							song.pause();
 							volume.setTexture(mutedTexture);
 							isSongPlaying = false;
 						}
