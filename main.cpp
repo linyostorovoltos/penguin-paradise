@@ -12,8 +12,8 @@ int main()
 
     sf::Sprite penguin;
     penguin.setTexture(penguintexture);
-
-    penguin.scale(sf::Vector2f(0.5f, 0.5f));
+    penguin.setOrigin(sf::Vector2f(658*0.5f, 651*0.5f));
+    penguin.setScale(sf::Vector2f(0.5f, 0.5f));
 
     while (window.isOpen())
     {
