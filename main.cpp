@@ -2,17 +2,22 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
+#include <string>
 
 int main() {
 	// creates window object
 	sf::RenderWindow window(sf::VideoMode(870, 630), "Experimental Penguins Rewritten", sf::Style::Titlebar | sf::Style::Close);
 
+	int i = 0;
+	int songnumber = 2;
+	std::string songlist[2] = {"music/elite.ogg", "music/holiday2011music.ogg"};
 	sf::Music song;
-	song.openFromFile("music/music.ogg");
+	song.openFromFile(songlist[i]);
 	song.setLoop(true);
 	song.setVolume(40);
 	song.play();
 	bool isSongPlaying = true;
+
 
 	// sets icon of window
 	sf::Image icon;
@@ -24,12 +29,14 @@ int main() {
 	sf::Texture backTexture;
 	sf::Texture volumeTexture;
 	sf::Texture mutedTexture;
+	sf::Texture starTexture;
 	// loads image dependencies and sets smooth textures
 	penguinTexture.loadFromFile("images/penguin.png");
 	penguinTexture.setSmooth(true);
 	backTexture.loadFromFile("images/background.png");
 	volumeTexture.loadFromFile("images/volume.png");
 	mutedTexture.loadFromFile("images/mute.png");
+	starTexture.loadFromFile("images/skip.png");
 
 
 	//sets scale
@@ -39,6 +46,7 @@ int main() {
 	sf::Sprite penguin;
 	sf::Sprite background;
 	sf::Sprite volume;
+	sf::Sprite star;
 	//associates sprites with textures
 	// also deals with origin and scaling
 	penguin.setTexture(penguinTexture);
@@ -49,6 +57,9 @@ int main() {
 	background.setTexture(backTexture);
 	volume.setTexture(volumeTexture);
 	volume.setPosition(sf::Vector2f(800,20));
+	star.setTexture(starTexture);
+	star.setPosition(sf::Vector2f(750,20));
+
 
 	while (window.isOpen()) {
 		// check all the window's events that were triggered since the last iteration of the loop
@@ -65,9 +76,10 @@ int main() {
 				if (event.mouseButton.button == sf::Mouse::Right || event.mouseButton.button == sf::Mouse::Left)
 				{
 					sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-					sf::FloatRect bounds = volume.getGlobalBounds();
+					sf::FloatRect skipbounds = star.getGlobalBounds();
+					sf::FloatRect volumebounds = volume.getGlobalBounds();
 
-					if (bounds.contains(mouse))
+					if (volumebounds.contains(mouse))
 					{
 						if (isSongPlaying == true)
 						{
@@ -83,10 +95,30 @@ int main() {
 							isSongPlaying = true;
 						}
 					}
-					else
+					else if (skipbounds.contains(mouse))
 					{
-						penguin.setPosition(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
+						if (i >= songnumber - 1)
+						{
+							i = 0;
+							song.stop();
+							song.openFromFile(songlist[i]);
+							isSongPlaying = true;
+							volume.setTexture(volumeTexture);
+							song.play();
+						}
+						else
+						{
+							i++;
+							song.stop();
+							song.openFromFile(songlist[i]);
+							isSongPlaying = true;
+							volume.setTexture(volumeTexture);
+							song.play();
+						}
 					}
+
+					else
+						penguin.setPosition(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
 				}
 			default:
 				break;
@@ -95,6 +127,7 @@ int main() {
 			window.clear();
 			window.draw(background);
 			window.draw(volume);
+			window.draw(star);
 			window.draw(penguin);
 			window.display();
 		}
