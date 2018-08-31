@@ -26,27 +26,41 @@ int main() {
 
 	// creates textures
 	sf::Texture penguinTexture;
-	sf::Texture backTexture;
+	sf::Texture firstRoomTexture;
+	sf::Texture secondRoomTexture;
 	sf::Texture volumeTexture;
 	sf::Texture mutedTexture;
 	sf::Texture starTexture;
+	sf::Texture rightSignTexture;
+	sf::Texture leftSignTexture;
+
 	// loads image dependencies and sets smooth textures
 	penguinTexture.loadFromFile("images/penguin.png");
 	penguinTexture.setSmooth(true);
-	backTexture.loadFromFile("images/background.png");
+
+	firstRoomTexture.loadFromFile("images/firstroom.png");
+	secondRoomTexture.loadFromFile("images/secondroom.png");
+
 	volumeTexture.loadFromFile("images/volume.png");
 	mutedTexture.loadFromFile("images/mute.png");
 	starTexture.loadFromFile("images/skip.png");
 
+	rightSignTexture.loadFromFile("images/rightsign.png");
+	leftSignTexture.loadFromFile("images/leftsign.png");
+
+
 
 	//sets scale
-	float playScale = 0.2f;
+	float playScale = 0.25f;
 
 	//creates sprites
 	sf::Sprite penguin;
 	sf::Sprite background;
 	sf::Sprite volume;
 	sf::Sprite star;
+	sf::Sprite rightSign;
+	sf::Sprite leftSign;
+
 	//associates sprites with textures
 	// also deals with origin and scaling
 	penguin.setTexture(penguinTexture);
@@ -54,12 +68,20 @@ int main() {
 	penguin.setScale(sf::Vector2f(playScale, playScale));
 	penguin.setPosition(sf::Vector2f(870/2, 630/2));
 
-	background.setTexture(backTexture);
+	background.setTexture(firstRoomTexture);
+
 	volume.setTexture(volumeTexture);
 	volume.setPosition(sf::Vector2f(800,20));
+
 	star.setTexture(starTexture);
 	star.setPosition(sf::Vector2f(750,20));
 
+	rightSign.setTexture(rightSignTexture);
+	rightSign.setPosition(sf::Vector2f(696,478));
+
+	leftSign.setTexture(leftSignTexture);
+	leftSign.setPosition(sf::Vector2f(50,476));
+	leftSign.setColor(sf::Color::Transparent);
 
 	while (window.isOpen()) {
 		// check all the window's events that were triggered since the last iteration of the loop
@@ -78,6 +100,8 @@ int main() {
 					sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 					sf::FloatRect skipbounds = star.getGlobalBounds();
 					sf::FloatRect volumebounds = volume.getGlobalBounds();
+					sf::FloatRect rightsignbounds = rightSign.getGlobalBounds();
+					sf::FloatRect leftsignbounds = leftSign.getGlobalBounds();
 
 					if (volumebounds.contains(mouse))
 					{
@@ -116,6 +140,19 @@ int main() {
 							song.play();
 						}
 					}
+					else if (rightsignbounds.contains(mouse))
+					{
+						background.setTexture(secondRoomTexture);
+						rightSign.setColor(sf::Color::Transparent);
+						leftSign.setColor(sf::Color::White);
+
+					}
+					else if(leftsignbounds.contains(mouse))
+					{
+						background.setTexture(firstRoomTexture);
+						rightSign.setColor(sf::Color::White);
+						leftSign.setColor(sf::Color::Transparent);
+					}
 
 					else
 						penguin.setPosition(sf::Vector2f(event.mouseButton.x, event.mouseButton.y));
@@ -126,6 +163,8 @@ int main() {
 
 			window.clear();
 			window.draw(background);
+			window.draw(rightSign);
+			window.draw(leftSign);
 			window.draw(volume);
 			window.draw(star);
 			window.draw(penguin);
