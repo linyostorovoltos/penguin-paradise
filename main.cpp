@@ -145,13 +145,14 @@ int main() {
 						background.setTexture(secondRoomTexture);
 						rightSign.setColor(sf::Color::Transparent);
 						leftSign.setColor(sf::Color::White);
-
+						penguin.setPosition(sf::Vector2f(870 / 2, 630 / 2));
 					}
 					else if(leftsignbounds.contains(mouse))
 					{
 						background.setTexture(firstRoomTexture);
 						rightSign.setColor(sf::Color::White);
 						leftSign.setColor(sf::Color::Transparent);
+						penguin.setPosition(sf::Vector2f(870 / 2, 630 / 2));
 					}
 
 					else
