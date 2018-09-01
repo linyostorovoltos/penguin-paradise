@@ -17,7 +17,7 @@ int main() {
 
 
 	map.setCenter(sf::Vector2f(870/2, 630/2));
-	map.setSize(sf::Vector2f(870*0.7f, 630*.7f));
+	map.setSize(sf::Vector2f(870, 630));
 
 
 	window.setView(game);
@@ -25,6 +25,7 @@ int main() {
 
 	int i = 0;
 	int songnumber = 2;
+
 	std::string songlist[2] = {"music/epf.ogg", "music/holiday2011music.ogg"};
 	sf::Music song;
 	song.openFromFile(songlist[i]);
@@ -33,7 +34,6 @@ int main() {
 	song.play();
 	bool isSongPlaying = true;
 
-	// sets icon of window
 	sf::Image icon;
 	icon.loadFromFile("images/icon.png");
 	window.setIcon(64, 64, icon.getPixelsPtr());
@@ -47,8 +47,9 @@ int main() {
 	sf::Texture starTexture;
 	sf::Texture rightSignTexture;
 	sf::Texture leftSignTexture;
+	sf::Texture mapButtonTexture;
+	sf::Texture mapTexture;
 
-	// loads image dependencies and sets smooth textures
 	int penguinWidth = 469;
 	int penguinLength = 514;
 	int currentSprite = 1;
@@ -66,6 +67,9 @@ int main() {
 	rightSignTexture.loadFromFile("images/rightsign.png");
 	leftSignTexture.loadFromFile("images/leftsign.png");
 
+	mapButtonTexture.loadFromFile("images/mapbutton.png");
+	mapTexture.loadFromFile("images/map.png");
+
 	//sets scale
 	float playScale = 0.2f;
 
@@ -76,6 +80,8 @@ int main() {
 	sf::Sprite star;
 	sf::Sprite rightSign;
 	sf::Sprite leftSign;
+	sf::Sprite mapButton;
+	sf::Sprite mapSprite;
 
 	//associates sprites with textures
 	// also deals with origin and scaling
@@ -85,7 +91,12 @@ int main() {
 	penguin.setScale(sf::Vector2f(playScale, playScale));
 	penguin.setPosition(sf::Vector2f(870/2, 630/2));
 
+	mapButton.setPosition(sf::Vector2f(14, 546));
+
+	mapSprite.setTexture(mapTexture);
+
 	background.setTexture(firstRoomTexture);
+	mapButton.setTexture(mapButtonTexture);
 	int room = 1;
 	volume.setTexture(volumeTexture);
 	volume.setPosition(sf::Vector2f(800,20));
@@ -97,7 +108,7 @@ int main() {
 	rightSign.setPosition(sf::Vector2f(696,478));
 
 	leftSign.setTexture(leftSignTexture);
-	leftSign.setPosition(sf::Vector2f(50,476));
+	leftSign.setPosition(sf::Vector2f(100,476));
 	leftSign.setColor(sf::Color::Transparent);
 
 	while (window.isOpen()) {
@@ -119,6 +130,7 @@ int main() {
 					sf::FloatRect volumebounds = volume.getGlobalBounds();
 					sf::FloatRect rightsignbounds = rightSign.getGlobalBounds();
 					sf::FloatRect leftsignbounds = leftSign.getGlobalBounds();
+					sf::FloatRect mapbuttonbounds = mapButton.getGlobalBounds();
 
 					if (volumebounds.contains(mouse))
 					{
@@ -187,6 +199,12 @@ int main() {
 						}
 					}
 
+					else if (mapbuttonbounds.contains(mouse))
+					{
+						window.setView(map);
+						currentView = "map";
+					}
+
 					else{
 						penguin.setPosition(mouse);
 					}
@@ -201,14 +219,15 @@ int main() {
 				window.draw(background);
 				window.draw(rightSign);
 				window.draw(leftSign);
+				window.draw(mapButton);
+				window.draw(penguin);
 				window.draw(volume);
 				window.draw(star);
-				window.draw(penguin);
 			}
 
 			else if (currentView == "map")
 			{
-				std::cout << "Yes!" << std::endl;
+				window.draw(mapSprite);
 			}
 
 			window.display();
